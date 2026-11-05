@@ -1,4 +1,4 @@
-package newpackage1;
+package mastermind;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +17,11 @@ public class MastermindGame extends JFrame implements ActionListener {
     
     private static final int LONGUEUR_CODE = 4;
     private static final int ESSAIS_MAX = 10;
+    private static final String[] COULEURS = {"Rouge", "Vert", "Bleu", "Jaune", "Orange", "Mauve"};
+    // "Comic sans" n'existe pas : Java retombait silencieusement sur la police par défaut
+    private static final String POLICE = "Comic Sans MS";
 
-    private final JComboBox[] boxEntrée;
+    private final JComboBox<String>[] boxEntree;
     private final JButton boutonValider;
     private final JButton boutonReset;
     private final JButton boutonRegles;
@@ -63,24 +66,23 @@ public class MastermindGame extends JFrame implements ActionListener {
         -> boucle for crée chaque combobox à l'identique en les mettant dans l'array 
         */
         
-        String[] couleurs = {"Rouge", "Vert", "Bleu", "Jaune", "Orange", "Mauve"};
         
-        boxEntrée = new JComboBox[LONGUEUR_CODE];
+        boxEntree = creerTableauCombo(LONGUEUR_CODE);
         
         for (int i = 0; i < LONGUEUR_CODE; i++) {
-            boxEntrée[i] = new JComboBox(couleurs);
-            boxEntrée[i].setFont(new Font("Comic sans", Font.BOLD, 35));
-            boxEntrée[i].setForeground(Color.yellow);
-            boxEntrée[i].setBackground(new Color(123,50,250));
-            boxEntrée[i].setFocusable(false);
-            boxEntrée[i].setEditor(new BasicComboBoxEditor());
-            gridPanelJeu.add(boxEntrée[i]);
+            boxEntree[i] = new JComboBox<>(COULEURS);
+            boxEntree[i].setFont(new Font(POLICE, Font.BOLD, 35));
+            boxEntree[i].setForeground(Color.yellow);
+            boxEntree[i].setBackground(new Color(123,50,250));
+            boxEntree[i].setFocusable(false);
+            boxEntree[i].setEditor(new BasicComboBoxEditor());
+            gridPanelJeu.add(boxEntree[i]);
         }
         
         // bouton valider
         
         boutonValider = new JButton("Valider");
-        boutonValider.setFont(new Font("Comic sans", Font.BOLD, 35));
+        boutonValider.setFont(new Font(POLICE, Font.BOLD, 35));
         boutonValider.addActionListener(this);
         boutonValider.setBackground(new Color(255,255,255));
         boutonValider.setForeground(new Color(123,50,250));
@@ -89,7 +91,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         // bouton Reset
         
         boutonReset = new JButton("RESET");
-        boutonReset.setFont(new Font("Comic sans", Font.BOLD, 35));
+        boutonReset.setFont(new Font(POLICE, Font.BOLD, 35));
         boutonReset.addActionListener(this);
         boutonReset.setBackground(new Color(255,0,0));
         boutonReset.setForeground(new Color(255,255,255));
@@ -99,7 +101,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         
         boutonRegles = new JButton("?");
         
-        boutonRegles.setFont(new Font("Comic sans", Font.BOLD, 35));
+        boutonRegles.setFont(new Font(POLICE, Font.BOLD, 35));
         boutonRegles.addActionListener(this);
         boutonRegles.setBackground(Color.YELLOW);
         boutonRegles.setForeground(new Color(123,50,250));
@@ -108,7 +110,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         //bouton score à 0
         
         boutonScore0 = new JButton("Score à 0");
-        boutonScore0.setFont(new Font("Comic sans", Font.BOLD, 15));
+        boutonScore0.setFont(new Font(POLICE, Font.BOLD, 15));
         boutonScore0.addActionListener(this);
         boutonScore0.setBackground(Color.YELLOW);
         boutonScore0.setForeground(new Color(123,55,255));
@@ -117,21 +119,21 @@ public class MastermindGame extends JFrame implements ActionListener {
         // Labels Feedback 
         
         feedbackLabel1 = new JLabel("Entrez votre proposition et cliquez sur Valider.", SwingConstants.CENTER);
-        feedbackLabel1.setFont(new Font("Comic sans", Font.BOLD, 26));
+        feedbackLabel1.setFont(new Font(POLICE, Font.BOLD, 26));
         feedbackLabel1.setForeground(new Color(255, 255, 255));
         
         feedbackLabel2 = new JLabel("", SwingConstants.CENTER);
-        feedbackLabel2.setFont(new Font("Comic sans", Font.BOLD, 26));
+        feedbackLabel2.setFont(new Font(POLICE, Font.BOLD, 26));
         feedbackLabel2.setForeground(new Color(255, 255, 255));
         
         feedbackLabel3 = new JLabel("", SwingConstants.CENTER);
-        feedbackLabel3.setFont(new Font("Comic sans", Font.BOLD, 26));
+        feedbackLabel3.setFont(new Font(POLICE, Font.BOLD, 26));
         feedbackLabel3.setForeground(Color.GREEN);
         
         // Label du Titre
         
         labelTitre = new JLabel("MasterMind", SwingConstants.CENTER);
-        labelTitre.setFont(new Font("Comic sans", Font.BOLD,100));
+        labelTitre.setFont(new Font(POLICE, Font.BOLD,100));
         labelTitre.setForeground(new Color(255, 255, 255));
         
         // Labels de l'historiques (montre l'historique des essais)
@@ -141,7 +143,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         JPanel panelLabelsHistorique = new JPanel(new GridLayout(ESSAIS_MAX, 1, 0, 0));
         
         titreHistorique = new JLabel("   Essais   ", SwingConstants.CENTER);
-        titreHistorique.setFont(new Font("Comic sans", Font.BOLD, 35));
+        titreHistorique.setFont(new Font(POLICE, Font.BOLD, 35));
         titreHistorique.setForeground(new Color(255, 255, 255));
         
         // Idem que pour boxEntree (labels historique de chaque essai)
@@ -150,7 +152,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         
         for (int i = 0; i < ESSAIS_MAX; i++) {
             labelsHistorique[i] = new JLabel("", SwingConstants.CENTER);
-            labelsHistorique[i].setFont(new Font("Comic sans", Font.BOLD, 15));
+            labelsHistorique[i].setFont(new Font(POLICE, Font.BOLD, 15));
             labelsHistorique[i].setForeground(Color.YELLOW);
             labelsHistorique[i].setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255),1));
             panelLabelsHistorique.add(labelsHistorique[i]);
@@ -160,14 +162,14 @@ public class MastermindGame extends JFrame implements ActionListener {
         
         scoreLabel = new JLabel();
         scoreLabel.setText("    "+ score + "    ");
-        scoreLabel.setFont(new Font("Comic sans", Font.BOLD, 25));
+        scoreLabel.setFont(new Font(POLICE, Font.BOLD, 25));
         scoreLabel.setForeground(Color.YELLOW);
         
         TitledBorder border = BorderFactory.createTitledBorder("SCORE");
         
         border.setTitleColor( Color.WHITE );
         border.setTitleColor(new Color(255, 255, 255));
-        border.setTitleFont(new Font("Comic sans", Font.BOLD, 12));
+        border.setTitleFont(new Font(POLICE, Font.BOLD, 12));
         scoreLabel.setBorder( border );
         
         // Panel feedback
@@ -242,8 +244,10 @@ public class MastermindGame extends JFrame implements ActionListener {
         add(labelTitre, BorderLayout.NORTH);
         add(panelBarreOutils, BorderLayout.EAST);
         
-        ImageIcon logo = new ImageIcon("logo.png");
-        setIconImage(logo.getImage());
+        ImageIcon logo = chargerImage("logo.png");
+        if (logo != null) {
+            setIconImage(logo.getImage());
+        }
         pack();
         setSize(1280, 900);
         setLocationRelativeTo(null);
@@ -253,6 +257,17 @@ public class MastermindGame extends JFrame implements ActionListener {
     }
     
     // Méthodes
+
+    @SuppressWarnings("unchecked")
+    private static JComboBox<String>[] creerTableauCombo(int taille) {
+        return (JComboBox<String>[]) new JComboBox<?>[taille];
+    }
+
+    /** Charge une image placée à côté des classes ; renvoie null si elle est absente. */
+    private static ImageIcon chargerImage(String nom) {
+        java.net.URL url = MastermindGame.class.getResource(nom);
+        return url == null ? null : new ImageIcon(url);
+    }
 
     private void nouvellePartie() {
         // Initialise le jeu
@@ -273,13 +288,12 @@ public class MastermindGame extends JFrame implements ActionListener {
     private String[] genereCodeSecret() {
         // Génère le code secret
         
-        String[] codeCouleurs = {"Rouge", "Vert", "Bleu", "Jaune", "Orange", "Mauve"};
         Random random = new Random();
         String[] code = new String[LONGUEUR_CODE];
         
         for (int i = 0; i < LONGUEUR_CODE; i++) {
-            int index = random.nextInt(codeCouleurs.length);
-            code[i] = codeCouleurs[index];
+            int index = random.nextInt(COULEURS.length);
+            code[i] = COULEURS[index];
         }
         return code;
     }
@@ -320,7 +334,7 @@ public class MastermindGame extends JFrame implements ActionListener {
 
     private void activationBox(boolean active) {
         // active/désactives les box/bouton valider
-        for (JComboBox champ : boxEntrée) {
+        for (JComboBox<String> champ : boxEntree) {
             champ.setEnabled(active);
         }
         boutonValider.setEnabled(active);
@@ -331,7 +345,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         String[] essai = new String[LONGUEUR_CODE];
         
         for (int i = 0; i < LONGUEUR_CODE; i++) {
-            essai[i] = boxEntrée[i].getSelectedItem().toString();
+            essai[i] = boxEntree[i].getSelectedItem().toString();
         }
         
         int[] resultat = evaluer(codeSecret, essai);
@@ -345,10 +359,10 @@ public class MastermindGame extends JFrame implements ActionListener {
             labelsHistorique[essaisPrecedent].setText(historyString);
             
             feedbackLabel1.setText("Félicitations! Vous avez deviné le code secret!");
-            feedbackLabel1.setFont(new Font("Comics sans", Font.BOLD, 40));
+            feedbackLabel1.setFont(new Font(POLICE, Font.BOLD, 40));
             feedbackLabel1.setForeground(Color.YELLOW);
             
-            ImageIcon artifice = new ImageIcon("artifice.png");
+            ImageIcon artifice = chargerImage("artifice.png");
             feedbackLabel1.setIcon(artifice);
             
             score += essaisRestants*essaisRestants*essaisRestants;
@@ -361,11 +375,11 @@ public class MastermindGame extends JFrame implements ActionListener {
                 
                 feedbackLabel1.setText("Game over !");
                 feedbackLabel1.setForeground(Color.RED);
-                feedbackLabel1.setFont(new Font("Comics sans", Font.BOLD, 40));
+                feedbackLabel1.setFont(new Font(POLICE, Font.BOLD, 40));
                 feedbackLabel3.setText(" Le code secret était: " + Arrays.toString(codeSecret));
                 feedbackLabel3.setForeground(Color.YELLOW);
                 
-                ImageIcon triste = new ImageIcon("triste.png");
+                ImageIcon triste = chargerImage("triste.png");
                 feedbackLabel1.setIcon(triste);
                 
             
@@ -387,7 +401,7 @@ public class MastermindGame extends JFrame implements ActionListener {
                 labelsHistorique[essaisPrecedent].setText(historyString);
                 
                 feedbackLabel1.setText("Tentative incorrecte !");
-                feedbackLabel1.setFont(new Font("Comics sans", Font.BOLD, 40));
+                feedbackLabel1.setFont(new Font(POLICE, Font.BOLD, 40));
                 feedbackLabel1.setForeground(Color.orange);
                 
                 feedbackLabel2.setText("Bonnes positions (V): " + positionsCorrectes +
@@ -419,6 +433,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         if (e.getSource() == boutonReset) {
             nouvellePartie();
             feedbackLabel1.setForeground(new Color(255, 255, 255));
+            feedbackLabel1.setFont(new Font(POLICE, Font.BOLD, 26));
             feedbackLabel1.setIcon(null);
             feedbackLabel3.setForeground(Color.GREEN);
         }
