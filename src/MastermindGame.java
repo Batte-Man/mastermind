@@ -138,7 +138,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         
         JPanel panelHistorique = new JPanel(new BorderLayout());
         
-        JPanel panelLabelsHistorique = new JPanel(new GridLayout(9,0,0,0));
+        JPanel panelLabelsHistorique = new JPanel(new GridLayout(ESSAIS_MAX, 1, 0, 0));
         
         titreHistorique = new JLabel("   Essais   ", SwingConstants.CENTER);
         titreHistorique.setFont(new Font("Comic sans", Font.BOLD, 35));
@@ -148,7 +148,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         
         labelsHistorique = new JLabel[ESSAIS_MAX];
         
-        for (int i = 0; i < ESSAIS_MAX - 1; i++) {
+        for (int i = 0; i < ESSAIS_MAX; i++) {
             labelsHistorique[i] = new JLabel("", SwingConstants.CENTER);
             labelsHistorique[i].setFont(new Font("Comic sans", Font.BOLD, 15));
             labelsHistorique[i].setForeground(Color.YELLOW);
@@ -261,7 +261,7 @@ public class MastermindGame extends JFrame implements ActionListener {
         essaisRestants = ESSAIS_MAX;
         essaisPrecedent = 0;
         
-        for(int i=0; i<ESSAIS_MAX - 1; i++){    
+        for(int i=0; i<ESSAIS_MAX; i++){    
             labelsHistorique[i].setText("");    
         }
         feedbackLabel1.setText("Et cliquez sur Valider ! ! !");
