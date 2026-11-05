@@ -284,6 +284,40 @@ public class MastermindGame extends JFrame implements ActionListener {
         return code;
     }
 
+    /**
+     * Compare un essai au code secret.
+     * Chaque pion du secret ne peut être compté qu'une fois : d'abord comme bien placé,
+     * sinon au plus une fois comme bonne couleur mal placée (règle officielle du Mastermind).
+     *
+     * @return {bien placés, bonnes couleurs mal placées}
+     */
+    static int[] evaluer(String[] secret, String[] essai) {
+        int bienPlaces = 0;
+        boolean[] secretUtilise = new boolean[secret.length];
+        boolean[] essaiUtilise = new boolean[essai.length];
+
+        for (int i = 0; i < secret.length; i++) {
+            if (essai[i].equals(secret[i])) {
+                bienPlaces++;
+                secretUtilise[i] = true;
+                essaiUtilise[i] = true;
+            }
+        }
+
+        int malPlaces = 0;
+        for (int i = 0; i < essai.length; i++) {
+            if (essaiUtilise[i]) continue;
+            for (int j = 0; j < secret.length; j++) {
+                if (!secretUtilise[j] && essai[i].equals(secret[j])) {
+                    malPlaces++;
+                    secretUtilise[j] = true;
+                    break;
+                }
+            }
+        }
+        return new int[]{bienPlaces, malPlaces};
+    }
+
     private void activationBox(boolean active) {
         // active/désactives les box/bouton valider
         for (JComboBox champ : boxEntrée) {
@@ -300,17 +334,9 @@ public class MastermindGame extends JFrame implements ActionListener {
             essai[i] = boxEntrée[i].getSelectedItem().toString();
         }
         
-        int positionsCorrectes = 0;
-        int couleursCorrectes = 0;
-
-        for (int i = 0; i < LONGUEUR_CODE; i++) {
-            
-            if (essai[i].equals(codeSecret[i])) {
-                positionsCorrectes++;
-            } else if (Arrays.asList(codeSecret).contains(essai[i])) {
-                couleursCorrectes++;
-            }
-        }
+        int[] resultat = evaluer(codeSecret, essai);
+        int positionsCorrectes = resultat[0];
+        int couleursCorrectes = resultat[1];
 
         if (positionsCorrectes == LONGUEUR_CODE) {
             
